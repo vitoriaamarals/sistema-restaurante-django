@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cliente, CategoriaMarmita, Marmita, Pedido, ItemPedido
+from .models import CategoriaMarmita, Marmita, Pedido, ItemPedido
 
 
 class ItemPedidoInline(admin.TabularInline):
@@ -9,25 +9,47 @@ class ItemPedidoInline(admin.TabularInline):
 
 @admin.register(Marmita)
 class MarmitaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'categoria', 'preco', 'disponivel')
+    list_display = (
+        'nome',
+        'categoria',
+        'preco_pequena',
+        'preco_grande',
+        'disponivel'
+    )
+
     search_fields = ('nome',)
-    list_filter = ('categoria', 'disponivel')
+
+    list_filter = (
+        'categoria',
+        'disponivel'
+    )
 
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'cliente', 'data', 'status')
-    search_fields = ('cliente__nome',)
-    list_filter = ('status', 'data')
+
+    list_display = (
+        'id',
+        'cliente',
+        'data',
+        'status',
+        'total'
+    )
+
+    search_fields = (
+        'cliente__username',
+    )
+
+    list_filter = (
+        'status',
+        'data'
+    )
+
     readonly_fields = ('data',)
+
     ordering = ('-data',)
+
     inlines = [ItemPedidoInline]
-
-
-@admin.register(Cliente)
-class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'telefone', 'email')
-    search_fields = ('nome', 'email')
 
 
 admin.site.register(CategoriaMarmita)
