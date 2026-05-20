@@ -23,17 +23,11 @@ class CategoriaMarmita(models.Model):
 
 
 class Marmita(models.Model):
-    TAMANHO_CHOICES = [
-        ('P', 'Pequena'),
-        ('M', 'Média'),
-        ('G', 'Grande'),
-    ]
 
     nome = models.CharField(max_length=100)
     descricao = models.TextField()
     preco = models.DecimalField(max_digits=8, decimal_places=2)
     categoria = models.ForeignKey(CategoriaMarmita, on_delete=models.CASCADE)
-    tamanho = models.CharField(max_length=1, choices=TAMANHO_CHOICES)
     disponivel = models.BooleanField(default=True)
 
     def clean(self):
@@ -41,7 +35,7 @@ class Marmita(models.Model):
             raise ValidationError("O preço deve ser maior que zero.")
 
     def __str__(self):
-        return f"{self.nome} - {self.get_tamanho_display()}"
+        return self.nome
 
 
 class Pedido(models.Model):
@@ -64,8 +58,15 @@ class Pedido(models.Model):
 
 
 class ItemPedido(models.Model):
+    TAMANHO_CHOICES = [
+        ('P', 'Pequena'),
+        ('M', 'Média'),
+        ('G', 'Grande'),
+    ]
+
     pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
     marmita = models.ForeignKey(Marmita, on_delete=models.CASCADE)
+    tamanho = models.CharField(max_length=1, choices=TAMANHO_CHOICES)
     quantidade = models.PositiveIntegerField()
     observacao = models.TextField(blank=True, null=True)
 
@@ -75,3 +76,5 @@ class ItemPedido(models.Model):
 
     def __str__(self):
         return f"{self.quantidade}x {self.marmita.nome}"
+
+        

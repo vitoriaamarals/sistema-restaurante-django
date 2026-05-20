@@ -9,9 +9,9 @@ class ItemPedidoInline(admin.TabularInline):
 
 @admin.register(Marmita)
 class MarmitaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'categoria', 'tamanho', 'preco', 'disponivel')
+    list_display = ('nome', 'categoria', 'preco', 'disponivel')
     search_fields = ('nome',)
-    list_filter = ('categoria', 'tamanho', 'disponivel')
+    list_filter = ('categoria', 'disponivel')
 
 
 @admin.register(Pedido)
@@ -19,6 +19,8 @@ class PedidoAdmin(admin.ModelAdmin):
     list_display = ('id', 'cliente', 'data', 'status')
     search_fields = ('cliente__nome',)
     list_filter = ('status', 'data')
+    readonly_fields = ('data',)
+    ordering = ('-data',)
     inlines = [ItemPedidoInline]
 
 
