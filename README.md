@@ -74,8 +74,6 @@ python -m venv venv
 
 ### 4. Ativar ambiente virtual
 
-#### CMD
-
 ```bash
 venv\Scripts\activate
 ```
