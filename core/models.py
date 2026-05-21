@@ -37,6 +37,8 @@ class Marmita(models.Model):
 
     disponivel = models.BooleanField(default=True)
 
+    refrigerante = models.BooleanField(default=False, verbose_name="Inclui Refrigerante?")
+    
     def clean(self):
 
         if self.preco_pequena <= 0:
