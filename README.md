@@ -10,6 +10,7 @@ A aplicação simula um sistema de delivery de marmitas, permitindo o gerenciame
 
 * Maria Eduarda Ferreira da Silva
 * Vitória Christie Amaral Santos
+* Vinicius Passos Oliveira
 
 ---
 
