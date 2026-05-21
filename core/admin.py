@@ -14,14 +14,16 @@ class MarmitaAdmin(admin.ModelAdmin):
         'categoria',
         'preco_pequena',
         'preco_grande',
-        'disponivel'
+        'disponivel',
+        'refrigerante'
     )
 
     search_fields = ('nome',)
 
     list_filter = (
         'categoria',
-        'disponivel'
+        'disponivel',
+        'refrigerante'
     )
 
 
