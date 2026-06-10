@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-6">
+
+        <div class="card shadow">
+
+            <div class="card-body">
+
+                <h2 class="mb-4">
+                    🍱 Fazer Pedido
+                </h2>
+
+                <h5>
+                    {{ marmita.nome }}
+                </h5>
+
+                <p>
+                    {{ marmita.descricao }}
+                </p>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Tamanho
+                        </label>
+                        {{ form.tamanho }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Quantidade
+                        </label>
+                        {{ form.quantidade }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Endereço
+                        </label>
+                        {{ form.endereco }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Telefone
+                        </label>
+                        {{ form.telefone }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Observação
+                        </label>
+                        {{ form.observacao }}
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-success w-100"
+                    >
+                        Confirmar Pedido
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

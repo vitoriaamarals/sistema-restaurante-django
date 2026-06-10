@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Seu Carrinho</h2>
+{% if pedido and pedido.itens.all %}
+    <div class="card shadow-sm p-4">
+        <ul class="list-group mb-3">
+            {% for item in pedido.itens.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="my-0 fw-bold">{{ item.quantidade }}x {{ item.marmita.nome }} ({{ item.get_tamanho_display }})</h6>
+                    <small class="text-muted">{{ item.observacao|default:"" }}</small>
+                </div>
+                <span class="text-muted">R$ {{ item.subtotal }}</span>
+            </li>
+            {% endfor %}
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <span class="text-danger fw-bold">Total (BRL)</span>
+                <strong class="text-danger">R$ {{ pedido.total }}</strong>
+            </li>
+        </ul>
+
+        <form method="POST">
+            {% csrf_token %}
+            <h5 class="mt-4">Dados de Entrega</h5>
+            <div class="mb-3">
+                <label>Endereço Completo:</label>
+                <input type="text" name="endereco" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label>Telefone de Contato:</label>
+                <input type="text" name="telefone" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success btn-lg w-100">Finalizar Pedido</button>
+        </form>
+    </div>
+{% else %}
+    <div class="alert alert-warning">Seu carrinho está vazio. Volte ao cardápio!</div>
+{% endif %}
+{% endblock %}

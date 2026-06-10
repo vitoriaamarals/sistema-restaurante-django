@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4 pb-2 border-bottom">
+    <div>
+        <h2 class="fw-bold text-dark mb-1">🍱 Opções Disponíveis</h2>
+        <p class="text-muted small mb-0">Selecione o prato perfeito para a sua refeição de hoje.</p>
+    </div>
+    <span class="badge bg-dark rounded-pill px-3 py-2">{{ marmitas|length }} opções</span>
+</div>
+
+<div class="row g-4">
+    {% for marmita in marmitas %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 border-0 shadow-sm rounded-4 position-relative overflow-hidden style-card">
+            <div class="card-body p-4 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill px-2 py-1 small">
+                        {{ marmita.categoria }}
+                    </span>
+                    {% if marmita.refrigerante %}
+                    <span class="badge bg-success-subtle text-success-emphasis rounded-pill px-2 py-1 small">
+                        <i class="bi bi-cup-straw me-1"></i>Refri Grátis
+                    </span>
+                    {% endif %}
+                </div>
+                
+                <h4 class="card-title fw-bold text-dark mb-2">{{ marmita.nome }}</h4>
+                <p class="card-text text-muted small flex-grow-1">{{ marmita.descricao }}</p>
+                
+                <div class="bg-light p-3 rounded-3 mb-3 mt-2">
+                    <div class="d-flex justify-content-between mb-1 small">
+                        <span class="text-muted">Tamanho P:</span>
+                        <strong class="text-dark">R$ {{ marmita.preco_pequena }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between small">
+                        <span class="text-muted">Tamanho G:</span>
+                        <strong class="text-dark">R$ {{ marmita.preco_grande }}</strong>
+                    </div>
+                </div>
+
+                <a href="{% url 'criar_pedido' marmita.id %}" class="btn btn-warning w-100 fw-bold rounded-3 py-2 mt-auto shadow-sm">
+                    <i class="bi bi-cart-plus me-1"></i>Montar meu Pedido
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center py-5">
+        <div class="text-muted mb-3"><i class="bi bi-patch-exclamation fs-1"></i></div>
+        <h4 class="fw-bold">Nenhuma marmita cadastrada ou disponível hoje.</h4>
+        <p class="text-muted">Verifique o painel administrativo para ativar as marmitas.</p>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .style-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .style-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    }
+</style>
+{% endblock %}
