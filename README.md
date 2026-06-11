@@ -2,7 +2,7 @@
 
 Projeto desenvolvido para a disciplina **GAC116 - Programação Web** utilizando o framework Django.
 
-A aplicação simula um sistema de delivery de marmitas, permitindo o gerenciamento de categorias, produtos e pedidos através de um ambiente administrativo autenticado.
+A aplicação simula um sistema de delivery de marmitas, permitindo o gerenciamento de categorias, produtos e pedidos através de um ambiente administrativo autenticado, além de oferecer uma interface para que os clientes visualizem o cardápio, realizem seu cadastro e gerenciem seus próprios pedidos.
 
 ---
 
@@ -10,20 +10,26 @@ A aplicação simula um sistema de delivery de marmitas, permitindo o gerenciame
 
 * Maria Eduarda Ferreira da Silva
 * Vitória Christie Amaral Santos
+* Vinicius Passos Oliveira
 
 ---
 
 ## 🚀 Funcionalidades Implementadas
 
-* Autenticação utilizando o sistema de usuários do Django
-* Ambiente administrativo customizado com Jazzmin
-* Cadastro de categorias de marmitas
-* Cadastro de marmitas
-* Controle de disponibilidade das marmitas
-* Cadastro de pedidos
-* Cadastro de itens do pedido
-* Relacionamento entre entidades utilizando banco de dados relacional
-* Cálculo automático de subtotal e total dos pedidos
+### 👤 Área do Cliente
+* **Autenticação Completa:** Cadastro de novos usuários, Login e Logout protegidos.
+* **Cardápio Interativo:** Visualização de marmitas disponíveis.
+* **Fluxo de Pedidos:** Tela para montagem do pedido com quantidade, endereço de entrega, telefone e campo para observações.
+* **Histórico de Pedidos:** Área para o cliente acompanhar suas solicitações anteriores.
+
+### 🛠️ Área Administrativa
+* **Interface Customizada:** Ambiente administrativo gerenciado através do pacote *Jazzmin*.
+* **Gestão de Cardápio:** Cadastro, edição e exclusão de categorias e marmitas.
+* **Painel de Controle de Pedidos:** Visualização centralizada das vendas e alteração de status (Carrinho, Preparando, Saiu para Entrega, Entregue, Cancelado).
+
+### ⚙️ Lógica de Negócio (Backend)
+* **Persistência de Dados:** Uso de banco de dados relacional.
+* **Cálculo Automático:** Processamento em tempo real do subtotal de cada item (Preço × Quantidade) e do valor total acumulado do pedido.
 
 ---
 
@@ -74,8 +80,15 @@ python -m venv venv
 
 ### 4. Ativar ambiente virtual
 
+Windows (Prompt de Comando):
+
 ```bash
-venv\Scripts\activate
+.\venv\Scripts\activate
+```
+Linux / macOS (e Git Bash no Windows):
+
+```bash
+source venv/bin/activate
 ```
 
 ### 5. Instalar dependências
@@ -110,6 +123,12 @@ python manage.py runserver
 
 ## 🔐 Acesso ao Sistema
 
+### Página inicial
+
+```text
+http://127.0.0.1:8000/
+```
+
 ### Painel administrativo
 
 ```text
@@ -126,12 +145,15 @@ sistema-restaurante-django/
 ├── core/
 │   ├── migrations/
 │   ├── admin.py
-│   ├── models.py
+│   └── models.py
 ├── restaurante/
-│   ├── settings.py
+│   └── settings.py
+├── templates/
+│   ├── core/
+│   └── registration/
 ├── manage.py
 |── README.md
-├── requirements.txt
+└── requirements.txt
 ```
 
 ---
