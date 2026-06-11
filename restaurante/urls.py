@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from core.forms import LoginForm
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -8,7 +9,8 @@ urlpatterns = [
     path(
         'login/',
         auth_views.LoginView.as_view(
-            template_name='registration/login.html'
+            template_name='registration/login.html',
+            authentication_form=LoginForm
         ),
         name='login'
     ),
