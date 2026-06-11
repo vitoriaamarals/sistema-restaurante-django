@@ -88,6 +88,18 @@ class Pedido(models.Model):
         default=0
     )
 
+    FORMA_PAGAMENTO_CHOICES = [
+        ('PIX', 'Pix (QrCode / Chave)'),
+        ('CREDITO', 'Cartão de Crédito'),
+        ('DEBITO', 'Cartão de Débito'),
+        ('DINHEIRO', 'Dinheiro'),
+    ]
+    forma_pagamento = models.CharField(
+        max_length=20,
+        choices=FORMA_PAGAMENTO_CHOICES,
+        default='PIX'
+    )
+
     def __str__(self):
         return f"Pedido #{self.id} - {self.cliente.username}"
     

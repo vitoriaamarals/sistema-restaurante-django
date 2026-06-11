@@ -1,39 +1,84 @@
-{% extends 'base.html' %}
+{% extends 'core/base.html' %}
 {% block content %}
-<h2>Seu Carrinho</h2>
-{% if pedido and pedido.itens.all %}
-    <div class="card shadow-sm p-4">
-        <ul class="list-group mb-3">
-            {% for item in pedido.itens.all %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-                <div>
-                    <h6 class="my-0 fw-bold">{{ item.quantidade }}x {{ item.marmita.nome }} ({{ item.get_tamanho_display }})</h6>
-                    <small class="text-muted">{{ item.observacao|default:"" }}</small>
-                </div>
-                <span class="text-muted">R$ {{ item.subtotal }}</span>
-            </li>
-            {% endfor %}
-            <li class="list-group-item d-flex justify-content-between bg-light">
-                <span class="text-danger fw-bold">Total (BRL)</span>
-                <strong class="text-danger">R$ {{ pedido.total }}</strong>
-            </li>
-        </ul>
+<div class="mb-4 pb-2 border-bottom">
+    <h2 class="fw-bold text-dark mb-1">🛒 Seu Carrinho de Compras</h2>
+    <p class="text-muted small mb-0">Confira seus itens antes de finalizar o pedido.</p>
+</div>
 
-        <form method="POST">
-            {% csrf_token %}
-            <h5 class="mt-4">Dados de Entrega</h5>
-            <div class="mb-3">
-                <label>Endereço Completo:</label>
-                <input type="text" name="endereco" class="form-control" required>
+{% if pedido and pedido.itens.all %}
+<div class="row g-4">
+    <!-- Listagem das Marmitas Intermediárias -->
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+            <div class="card-body">
+                <h5 class="fw-bold text-dark mb-3">Marmitas no Carrinho</h5>
+                <ul class="list-group list-group-flush">
+                    {% for item in pedido.itens.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-0">
+                        <div>
+                            <h6 class="my-0 fw-bold text-dark">{{ item.quantidade }}x {{ item.marmita.nome }}</h6>
+                            <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill small mt-1">Tamanho: {{ item.get_tamanho_display }}</span>
+                            {% if item.observacao %}
+                                <small class="text-muted d-block mt-1 bg-light p-2 rounded-2"><i class="bi bi-chat-left-text me-1"></i>{{ item.observacao }}</small>
+                            {% endif %}
+                        </div>
+                        <span class="fw-bold text-secondary">R$ {{ item.subtotal }}</span>
+                    </li>
+                    {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between border-top border-2 mt-3 pt-3 px-0 bg-transparent">
+                        <span class="text-dark fw-bold fs-5">Subtotal do Carrinho:</span>
+                        <strong class="text-danger fs-5">R$ {{ pedido.total }}</strong>
+                    </li>
+                </ul>
+                <div class="mt-4">
+                    <a href="{% url 'marmitas' %}" class="btn btn-sm btn-outline-secondary rounded-3">
+                        <i class="bi bi-plus-lg me-1"></i> Adicionar mais marmitas
+                    </a>
+                </div>
             </div>
-            <div class="mb-3">
-                <label>Telefone de Contato:</label>
-                <input type="text" name="telefone" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-success btn-lg w-100">Finalizar Pedido</button>
-        </form>
+        </div>
     </div>
+
+    <!-- Parte do Checkout Definitivo -->
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+            <div class="card-body">
+                <h5 class="fw-bold text-dark mb-3"><i class="bi bi-truck text-warning me-1"></i> Finalizar Checkout</h5>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-medium text-secondary">Endereço de Entrega:</label>
+                        <input type="text" name="endereco" class="form-control rounded-3" placeholder="Rua, Número, Bairro..." required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-medium text-secondary">Telefone de Contato:</label>
+                        <input type="text" name="telefone" class="form-control rounded-3" placeholder="(35) 99999-9999" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label small fw-medium text-secondary">Forma de Pagamento (Na entrega):</label>
+                        <select name="forma_pagamento" class="form-control rounded-3" required>
+                            <option value="PIX">⚡ Pix</option>
+                            <option value="CREDITO">💳 Cartão de Crédito</option>
+                            <option value="DEBITO">🪪 Cartão de Débito</option>
+                            <option value="DINHEIRO">💵 Dinheiro na Entrega</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg w-100 fw-bold rounded-3 shadow-sm py-3">
+                        <i class="bi bi-check-circle-fill me-2"></i>Fechar e Enviar Pedido
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% else %}
-    <div class="alert alert-warning">Seu carrinho está vazio. Volte ao cardápio!</div>
+<div class="text-center card border-0 shadow-sm p-5 rounded-4 bg-white">
+    <div class="text-muted mb-3"><i class="bi bi-cart-x fs-1"></i></div>
+    <h4 class="fw-bold">Seu carrinho está vazio</h4>
+    <p class="text-muted mb-4">Volte ao cardápio para selecionar suas marmitas!</p>
+    <div>
+        <a href="{% url 'marmitas' %}" class="btn btn-warning fw-bold px-4">Escolher Marmitas</a>
+    </div>
+</div>
 {% endif %}
 {% endblock %}

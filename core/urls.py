@@ -31,5 +31,10 @@ urlpatterns = [
         views.criar_pedido,
         name='criar_pedido'
     ),
+
+    path(
+        'carrinho/', 
+        views.ver_carrinho, 
+        name='carrinho'),
 ]
 
